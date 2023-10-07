@@ -12,6 +12,7 @@ internal static class DependencyInjectionExtensions
     {
         builder.Services.AddFastEndpoints();
         builder.Services.AddSingleton<IApplicationTokenService, ApplicationTokenService>();
+        builder.Services.AddSingleton<IUsersService, UsersService>();
 
         return builder.Services
             .AddConfigurations(builder.Configuration);
