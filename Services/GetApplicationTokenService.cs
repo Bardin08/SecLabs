@@ -27,7 +27,7 @@ internal class ApplicationTokenService : IApplicationTokenService
 
         Task.Run(async () =>
         {
-            var reUpdateTimeSpan = TimeSpan.FromSeconds(_clientAuthConfiguration.ReUpdateMinutes);
+            var reUpdateTimeSpan = TimeSpan.FromMinutes(_clientAuthConfiguration.ReUpdateMinutes);
             var periodicTimer = new PeriodicTimer(reUpdateTimeSpan);
 
             while (await periodicTimer.WaitForNextTickAsync())

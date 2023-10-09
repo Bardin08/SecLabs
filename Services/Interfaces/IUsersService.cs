@@ -3,8 +3,11 @@ using SecurityLabs.Contracts.Api.Models;
 
 namespace SecurityLabs.Services.Interfaces;
 
-public interface IUsersService
+internal interface IUsersService
 {
     Task<ErrorOr<UserInfoResponse>> CreateUserAsync(
         CreateUserRequest request, CancellationToken cancellationToken);
+
+    Task<ErrorOr<AuthInfoWithRefreshTokenResponse>> GetUserTokenAsync(
+        GetUserTokenRequest request, CancellationToken cancellationToken);
 }

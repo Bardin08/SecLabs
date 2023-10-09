@@ -1,5 +1,4 @@
 ﻿using FastEndpoints;
-using SecurityLabs.Contracts.Api;
 using SecurityLabs.Contracts.Api.Models;
 using SecurityLabs.Services.Interfaces;
 
