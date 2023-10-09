@@ -29,21 +29,18 @@ internal sealed class UsersService : IUsersService
         var baseUrl = $"https://{_appCredentialsConfiguration.ClientInfo.Domain}/";
         var restClient = RestService.For<IUsersApi>(baseUrl, RefitSettingsExtension.ProjectDefaultSettings);
 
-        var auth0Request = Auth0CreateUserRequest.FromCreateUserRequest(
+        var createUserRequest = Auth0CreateUserRequest.FromCreateUserRequest(
             request,
             _appCredentialsConfiguration.ClientInfo.ClientId,
             _appCredentialsConfiguration.ClientInfo.ClientSecret,
-            _appCredentialsConfiguration.ClientInfo.Audience
-        );
+            _appCredentialsConfiguration.ClientInfo.Audience);
 
-        var accessToken = (await _applicationTokenService.GetApplicationCredentialsAsync())!.AccessToken;
         var userInfo = await restClient.CreateUserAsync(
-            request,
+            createUserRequest,
             new Dictionary<string, string>
             {
                 {
-                    "Authorization",
-                    $"Bearer {accessToken}"
+                    "Authorization", (await _applicationTokenService.GetApplicationCredentialsAsync())!.AccessToken
                 }
             },
             cancellationToken);
@@ -52,6 +49,7 @@ internal sealed class UsersService : IUsersService
         {
             return Error.Unexpected("Users.CreateUser", userInfo.Error.Content!);
         }
+
         return userInfo.Content;
     }
 
@@ -64,9 +62,36 @@ internal sealed class UsersService : IUsersService
         request.ClientId = _appCredentialsConfiguration.ClientInfo.ClientId;
         request.ClientSecret = _appCredentialsConfiguration.ClientInfo.ClientSecret;
         request.Audience = _appCredentialsConfiguration.ClientInfo.Audience;
-        
+
         var userToken = await restClient.GetUserTokenAsync(
             request,
+            new Dictionary<string, string>
+            {
+                { "Authorization", (await _applicationTokenService.GetApplicationCredentialsAsync())!.AccessToken }
+            },
+            cancellationToken);
+
+        if (!userToken.IsSuccessStatusCode)
+        {
+            return Error.Unexpected("Users.GetUserToken", userToken.Error.Content!);
+        }
+
+        return userToken.Content;
+    }
+
+    public async Task<ErrorOr<AuthInfoWithRefreshTokenResponse>> RefreshUserTokenAsync(
+        RefreshAccessTokenRequest request, CancellationToken cancellationToken)
+    {
+        var baseUrl = $"https://{_appCredentialsConfiguration.ClientInfo.Domain}/";
+        var restClient = RestService.For<IUsersApi>(baseUrl, RefitSettingsExtension.ProjectDefaultSettings);
+
+        var refreshTokenRequest = Auth0RefreshAccessTokenRequest.FromRefreshTokenRequest(
+            request,
+            _appCredentialsConfiguration.ClientInfo.ClientId,
+            _appCredentialsConfiguration.ClientInfo.ClientSecret);
+
+        var userToken = await restClient.RefreshAccessTokenAsync(
+            refreshTokenRequest,
             new Dictionary<string, string>
             {
                 { "Authorization", (await _applicationTokenService.GetApplicationCredentialsAsync())!.AccessToken }

@@ -30,8 +30,6 @@ public class Auth0CreateUserRequest
     [JsonPropertyName("user_id")]
     public string? UserId { get; init; }
 
-
-
     [JsonProperty("password")]
     [JsonPropertyName("password")]
     public string? Password { get; init; }
