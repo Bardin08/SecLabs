@@ -1,12 +1,33 @@
-﻿using FastEndpoints;
+﻿namespace SecurityLabs.Contracts.Api.Models;
 
-namespace SecurityLabs.Contracts.Api.Models;
-
-public class Response<TBody>
+internal record Response
 {
-    public bool IsSuccessful  { get; set; }
-    public TBody? Body { get; set; }
+    public bool IsSuccessful { get; set; }
     public Dictionary<string, object>? Errors { get; set; }
+
+    public static Response Success()
+    {
+        return new Response
+        {
+            IsSuccessful = true,
+            Errors = null,
+        };
+    }
+
+    public static Response Fail(
+        Dictionary<string, object> errors)
+    {
+        return new Response
+        {
+            IsSuccessful = false,
+            Errors = errors
+        };
+    }
+}
+
+internal record Response<TBody> : Response
+{
+    public TBody? Body { get; set; }
 
     public static Response<TBody> Success(TBody body)
     {
@@ -28,5 +49,4 @@ public class Response<TBody>
             Errors = errors
         };
     }
-
 }

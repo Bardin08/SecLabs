@@ -5,6 +5,7 @@ using SecurityLabs.Configurations;
 using SecurityLabs.Contracts.Api;
 using SecurityLabs.Contracts.Api.External;
 using SecurityLabs.Contracts.Api.Models;
+using SecurityLabs.Endpoints.Users;
 using SecurityLabs.Extensions;
 using SecurityLabs.Services.Interfaces;
 
@@ -101,6 +102,30 @@ internal sealed class UsersService : IUsersService
         if (!userToken.IsSuccessStatusCode)
         {
             return Error.Unexpected("Users.GetUserToken", userToken.Error.Content!);
+        }
+
+        return userToken.Content;
+    }
+
+    public async Task<ErrorOr<UserInfoResponse>> ChangePasswordAsync(
+        ChangeUserPasswordRequest request, CancellationToken cancellationToken)
+    {
+        var baseUrl = $"https://{_appCredentialsConfiguration.ClientInfo.Domain}/";
+        var restClient = RestService.For<IUsersApi>(baseUrl, RefitSettingsExtension.ProjectDefaultSettings);
+
+        var applicationToken = (await _applicationTokenService.GetApplicationCredentialsAsync())!.AccessToken;
+        var userToken = await restClient.ChangePasswordAsync(
+            request.UserId!,
+            Auth0ChangeUserPasswordRequest.FromChangeUserPasswordRequest(request), 
+            new Dictionary<string, string>
+            {
+                { "Authorization", $"Bearer {applicationToken}" }
+            },
+            cancellationToken);
+
+        if (!userToken.IsSuccessStatusCode)
+        {
+            return Error.Unexpected("Users.ChangePassword", userToken.Error.Content!);
         }
 
         return userToken.Content;

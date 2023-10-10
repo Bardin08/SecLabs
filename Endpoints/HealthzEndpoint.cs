@@ -3,11 +3,11 @@ using SecurityLabs.Services.Interfaces;
 
 namespace SecurityLabs.Endpoints;
 
-internal class TestEndpoint : EndpointWithoutRequest
+internal class HealthzEndpoint : EndpointWithoutRequest
 {
     private readonly IApplicationTokenService _tokenService;
 
-    public TestEndpoint(IApplicationTokenService tokenService)
+    public HealthzEndpoint(IApplicationTokenService tokenService)
     {
         _tokenService = tokenService;
     }

@@ -11,6 +11,13 @@ internal interface IUsersApi
         [HeaderCollection] IDictionary<string, string> headers,
         CancellationToken cancellationToken);
 
+    [Patch("/api/v2/users/{userId}")]
+    Task<ApiResponse<UserInfoResponse>> ChangePasswordAsync(
+        [AliasAs("userId")] string userId,
+        Auth0ChangeUserPasswordRequest request,
+        [HeaderCollection] IDictionary<string, string> headers,
+        CancellationToken cancellationToken);
+
     [Post("/oauth/token")]
     Task<ApiResponse<AuthInfoWithRefreshTokenResponse>> GetUserTokenAsync(GetUserTokenRequest request,
         [HeaderCollection] IDictionary<string, string> headers,
