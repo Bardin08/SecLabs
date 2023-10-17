@@ -1,6 +1,5 @@
 ﻿using ErrorOr;
 using SecurityLabs.Contracts.Api.Models;
-using SecurityLabs.Endpoints.Users;
 
 namespace SecurityLabs.Services.Interfaces;
 

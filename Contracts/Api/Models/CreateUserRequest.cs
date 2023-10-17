@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace SecurityLabs.Contracts.Api.Models;
 
-public record CreateUserRequest
+internal record CreateUserRequest
 {
     [JsonProperty("email")]
     [JsonPropertyName("email")]
@@ -36,16 +36,12 @@ public record CreateUserRequest
     [JsonProperty("username")]
     [JsonPropertyName("username")]
     public string? Username { get; init; }
-    
-    [JsonProperty("connection")]
-    [JsonPropertyName("connection")]
-    public string Connection => "Username-Password-Authentication";
 }
 
-public record AppMetadata
+internal record AppMetadata
 {
 }
 
-public record UserMetadata
+internal record UserMetadata
 {
 }

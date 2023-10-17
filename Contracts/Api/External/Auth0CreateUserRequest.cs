@@ -4,7 +4,7 @@ using SecurityLabs.Contracts.Api.Models;
 
 namespace SecurityLabs.Contracts.Api.External;
 
-public class Auth0CreateUserRequest
+internal class Auth0CreateUserRequest
 {
     [JsonProperty("email")]
     [JsonPropertyName("email")]
@@ -38,20 +38,11 @@ public class Auth0CreateUserRequest
     [JsonPropertyName("username")]
     public string? Username { get; init; }
 
-    [JsonProperty("client_id")]
-    [JsonPropertyName("client_id")]
-    public string? ClientId { get; init; }
+    [JsonProperty("connection")]
+    [JsonPropertyName("connection")]
+    public string Connection => "Username-Password-Authentication";
 
-    [JsonProperty("client_secret")]
-    [JsonPropertyName("client_secret")]
-    public string? ClientSecret { get; init; }
-
-    [JsonProperty("audience")]
-    [JsonPropertyName("audience")]
-    public string? Audience { get; init; }
-
-    public static Auth0CreateUserRequest FromCreateUserRequest(
-        CreateUserRequest request, string clientId, string clientSecret, string audience)
+    internal static Auth0CreateUserRequest FromCreateUserRequest(CreateUserRequest request)
     {
         return new Auth0CreateUserRequest
         {
@@ -63,9 +54,6 @@ public class Auth0CreateUserRequest
             UserMetadata = request.UserMetadata,
             Blocked = request.Blocked,
             Password = request.Password,
-            Audience = audience,
-            ClientId = clientId,
-            ClientSecret = clientSecret
         };
     }
 }

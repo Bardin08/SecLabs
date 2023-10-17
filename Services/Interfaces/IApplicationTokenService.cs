@@ -8,5 +8,5 @@ namespace SecurityLabs.Services.Interfaces;
 /// </summary>
 internal interface IApplicationTokenService
 {
-    Task<AuthInfoResponse?> GetApplicationCredentialsAsync();
+    ValueTask<AuthInfoResponse?> GetApplicationCredentialsAsync();
 }

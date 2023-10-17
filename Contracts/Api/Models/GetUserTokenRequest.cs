@@ -1,15 +1,11 @@
 ﻿using System.Text.Json.Serialization;
 using FastEndpoints;
 using Newtonsoft.Json;
-using Refit;
 
 namespace SecurityLabs.Contracts.Api.Models;
 
 public record GetUserTokenRequest
 {
-    [FromHeader(HeaderName = "Authorization", RemoveFromSchema = true, IsRequired = false)]
-    public string? AuthToken { get; set; }
-
     [JsonProperty("grant_type")]
     [JsonPropertyName("grant_type")]
     public required string GrantType { get; set; }
@@ -22,14 +18,17 @@ public record GetUserTokenRequest
     [JsonPropertyName("password")]
     public required string Password { get; set; }
 
+    [HideFromDocs]
     [JsonProperty("client_id")]
     [JsonPropertyName("client_id")]
     public string? ClientId { get; set; }
 
+    [HideFromDocs]
     [JsonProperty("client_secret")]
     [JsonPropertyName("client_secret")]
     public string? ClientSecret { get; set; }
 
+    [HideFromDocs]
     [JsonProperty("audience")]
     [JsonPropertyName("audience")]
     public string? Audience { get; set; }

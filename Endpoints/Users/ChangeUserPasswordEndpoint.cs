@@ -19,7 +19,6 @@ internal class ChangeUserPasswordEndpoint
     {
         Verbs(Http.PATCH);
         Routes("/api/users/{userId}/password/change");
-        AllowAnonymous();
     }
 
     public override async Task HandleAsync(ChangeUserPasswordRequest req, CancellationToken ct)

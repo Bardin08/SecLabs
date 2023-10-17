@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace SecurityLabs.Contracts.Api.Models;
 
-public record UserInfoResponse
+internal record UserInfoResponse
 {
     [JsonProperty("email")]
     [JsonPropertyName("email")]

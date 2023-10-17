@@ -66,7 +66,7 @@ internal class ApplicationTokenService : IApplicationTokenService
         return response.Content;
     }
 
-    public async Task<AuthInfoResponse?> GetApplicationCredentialsAsync()
+    public async ValueTask<AuthInfoResponse?> GetApplicationCredentialsAsync()
     {
         if (_appCredentials is not null)
         {

@@ -19,7 +19,6 @@ internal class UpdateAccessTokenEndpoint
     {
         Verbs(Http.POST);
         Routes("/api/users/token/refresh");
-        AllowAnonymous();
     }
 
     public override async Task HandleAsync(RefreshAccessTokenRequest req, CancellationToken ct)
