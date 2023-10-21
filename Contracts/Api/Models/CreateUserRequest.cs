@@ -37,11 +37,3 @@ internal record CreateUserRequest
     [JsonPropertyName("username")]
     public string? Username { get; init; }
 }
-
-internal record AppMetadata
-{
-}
-
-internal record UserMetadata
-{
-}

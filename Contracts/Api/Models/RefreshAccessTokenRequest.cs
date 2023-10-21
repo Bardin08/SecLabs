@@ -15,5 +15,5 @@ internal record RefreshAccessTokenRequest
 
     [JsonProperty("scope")]
     [JsonPropertyName("scope")]
-    public string? Scope { get; set; }    
+    public string? Scope { get; init; }    
 }

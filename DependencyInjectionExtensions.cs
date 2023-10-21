@@ -2,6 +2,8 @@
 using SecurityLabs.Configurations;
 using SecurityLabs.Services;
 using SecurityLabs.Services.Interfaces;
+using SecurityLabs.Services.Proxies;
+using SecurityLabs.Services.Proxies.Interfaces;
 
 namespace SecurityLabs;
 
@@ -11,8 +13,12 @@ internal static class DependencyInjectionExtensions
         this WebApplicationBuilder builder)
     {
         builder.Services.AddFastEndpoints();
+
         builder.Services.AddSingleton<IApplicationTokenService, ApplicationTokenService>();
-        builder.Services.AddSingleton<IUsersService, UsersService>();
+        builder.Services.AddScoped<IAccessTokenService, AccessTokenService>();
+        builder.Services.AddScoped<IUsersService, UsersService>();
+
+        builder.Services.AddScoped<IAccessTokenServiceProxy, AccessTokenServiceProxy>();
 
         return builder.Services
             .AddConfigurations(builder.Configuration);
@@ -26,6 +32,8 @@ internal static class DependencyInjectionExtensions
             configuration.GetSection(AppCredentialsConfiguration.SectionName));
         services.Configure<ClientCredentialsConfiguration>(
             configuration.GetSection(ClientCredentialsConfiguration.SectionName));
+        services.Configure<JwtTokenConfiguration>(
+            configuration.GetSection(JwtTokenConfiguration.SectionName));
 
         return services;
     }

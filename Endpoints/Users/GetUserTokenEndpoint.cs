@@ -1,17 +1,18 @@
 ﻿using FastEndpoints;
 using SecurityLabs.Contracts.Api.Models;
 using SecurityLabs.Extensions;
-using SecurityLabs.Services.Interfaces;
+using SecurityLabs.Services.Proxies.Interfaces;
 
 namespace SecurityLabs.Endpoints.Users;
 
 internal class GetUserTokenEndpoint : Endpoint<GetUserTokenRequest, Response<AuthInfoWithRefreshTokenResponse>>
 {
-    private readonly IUsersService _usersService;
+    private readonly IAccessTokenServiceProxy _accessTokenService;
 
-    public GetUserTokenEndpoint(IUsersService usersService)
+    public GetUserTokenEndpoint(
+        IAccessTokenServiceProxy accessTokenService)
     {
-        _usersService = usersService;
+        _accessTokenService = accessTokenService;
     }
 
     public override void Configure()
@@ -23,7 +24,7 @@ internal class GetUserTokenEndpoint : Endpoint<GetUserTokenRequest, Response<Aut
 
     public override async Task HandleAsync(GetUserTokenRequest req, CancellationToken ct)
     {
-        var userToken = await _usersService.GetUserTokenAsync(req, ct);
+        var userToken = await _accessTokenService.GetUserTokenAsync(req, ct);
         await SendAsync(userToken.ToResponse(), cancellation: ct);
     }
 }

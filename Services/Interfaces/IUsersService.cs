@@ -8,12 +8,6 @@ internal interface IUsersService
     Task<ErrorOr<UserInfoResponse>> CreateUserAsync(
         CreateUserRequest request, CancellationToken cancellationToken);
 
-    Task<ErrorOr<AuthInfoWithRefreshTokenResponse>> GetUserTokenAsync(
-        GetUserTokenRequest request, CancellationToken cancellationToken);
-
-    Task<ErrorOr<AuthInfoWithRefreshTokenResponse>> RefreshUserTokenAsync(
-        RefreshAccessTokenRequest request, CancellationToken cancellationToken);
-
     Task<ErrorOr<UserInfoResponse>> ChangePasswordAsync(
         ChangeUserPasswordRequest request, CancellationToken cancellationToken);
 }

@@ -8,11 +8,11 @@ namespace SecurityLabs.Endpoints.Users;
 internal class UpdateAccessTokenEndpoint
     : Endpoint<RefreshAccessTokenRequest, Response<AuthInfoWithRefreshTokenResponse>>
 {
-    private readonly IUsersService _usersService;
+    private readonly IAccessTokenService _accessTokenService;
 
-    public UpdateAccessTokenEndpoint(IUsersService usersService)
+    public UpdateAccessTokenEndpoint(IAccessTokenService accessTokenService)
     {
-        _usersService = usersService;
+        _accessTokenService = accessTokenService;
     }
 
     public override void Configure()
@@ -23,7 +23,7 @@ internal class UpdateAccessTokenEndpoint
 
     public override async Task HandleAsync(RefreshAccessTokenRequest req, CancellationToken ct)
     {
-        var userToken = await _usersService.RefreshUserTokenAsync(req, ct);
+        var userToken = await _accessTokenService.RefreshUserTokenAsync(req, ct);
         await SendAsync(userToken.ToResponse(), cancellation: ct);
     }
 }
