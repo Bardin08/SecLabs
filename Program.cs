@@ -40,6 +40,8 @@ builder.AddPresentationLayerServices();
 
 var app = builder.Build();
 
+app.UseMiddleware<AuthCodeAccessMiddleware>();
+
 app.UseAuthentication();
 app.UseAuthorization();
 

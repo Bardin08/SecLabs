@@ -19,6 +19,11 @@ internal interface IUsersApi
         CancellationToken cancellationToken);
 
     [Post("/oauth/token")]
+    Task<ApiResponse<AuthInfoWithRefreshTokenResponse>> GetAuthInfoFromCodeAsync(GetAuthInfoFromCodeRequest request,
+        [HeaderCollection] IDictionary<string, string> headers,
+        CancellationToken cancellationToken);
+
+    [Post("/oauth/token")]
     Task<ApiResponse<AuthInfoWithRefreshTokenResponse>> GetUserTokenAsync(GetUserTokenRequest request,
         [HeaderCollection] IDictionary<string, string> headers,
         CancellationToken cancellationToken);

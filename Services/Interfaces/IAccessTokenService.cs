@@ -5,6 +5,9 @@ namespace SecurityLabs.Services.Interfaces;
 
 internal interface IAccessTokenService
 {
+    Task<ErrorOr<AuthInfoWithRefreshTokenResponse>> GetAuthInfoFromCodeAsync(
+        GetAuthInfoFromCodeRequest request, CancellationToken cancellationToken);
+
     Task<ErrorOr<AuthInfoWithRefreshTokenResponse>> GetUserTokenAsync(
         GetUserTokenRequest request, CancellationToken cancellationToken);
 

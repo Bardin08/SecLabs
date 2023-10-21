@@ -19,6 +19,22 @@ internal class AccessTokenServiceProxy : IAccessTokenServiceProxy
         _memoryCache = memoryCache;
     }
 
+    public async Task<ErrorOr<AuthInfoWithRefreshTokenResponse>> GetAuthInfoFromCodeAsync(
+        GetAuthInfoFromCodeRequest request, CancellationToken cancellationToken)
+    {
+        var accessTokenResponse = await _accessTokenService
+            .GetAuthInfoFromCodeAsync(request, cancellationToken);
+
+        if (accessTokenResponse.IsError)
+        {
+            return accessTokenResponse;
+        }
+
+        TryCacheRefreshToken(accessTokenResponse.Value);
+
+        return accessTokenResponse;
+    }
+
     public async Task<ErrorOr<AuthInfoWithRefreshTokenResponse>> GetUserTokenAsync(
         GetUserTokenRequest request, CancellationToken cancellationToken)
     {

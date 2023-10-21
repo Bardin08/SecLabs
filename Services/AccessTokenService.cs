@@ -22,6 +22,32 @@ internal class AccessTokenService : BaseRestService, IAccessTokenService
         _appCredentialsConfiguration = appCredentialsConfiguration.Value;
     }
 
+    public async Task<ErrorOr<AuthInfoWithRefreshTokenResponse>> GetAuthInfoFromCodeAsync(
+        GetAuthInfoFromCodeRequest request, CancellationToken cancellationToken)
+    {
+        var baseUrl = $"https://{_appCredentialsConfiguration.ClientInfo.Domain}/";
+        var restClient = RestService.For<IUsersApi>(baseUrl, RefitSettingsExtension.ProjectDefaultSettings);
+
+        return await
+            DoApiRequestInternalAsync<
+                GetAuthInfoFromCodeRequest, GetAuthInfoFromCodeRequest, AuthInfoWithRefreshTokenResponse>(
+                    request,
+                    r =>
+                    {
+                        SetClientCredentials(r);
+                        return r;
+                    },
+                    restClient.GetAuthInfoFromCodeAsync,
+                    cancellationToken);
+
+        void SetClientCredentials(GetAuthInfoFromCodeRequest req)
+        {
+            req.ClientId = _appCredentialsConfiguration.ClientInfo.ClientId;
+            req.ClientSecret = _appCredentialsConfiguration.ClientInfo.ClientSecret;
+            req.Audience = _appCredentialsConfiguration.ClientInfo.Audience;
+        }
+    }
+
     public async Task<ErrorOr<AuthInfoWithRefreshTokenResponse>> GetUserTokenAsync(
         GetUserTokenRequest request, CancellationToken cancellationToken)
     {
