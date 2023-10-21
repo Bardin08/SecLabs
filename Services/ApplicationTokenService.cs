@@ -79,7 +79,6 @@ internal class ApplicationTokenService : IApplicationTokenService
             _appCredentials = credentials.Value;
         }
 
-        _logger.LogCritical(message: credentials.FirstError.Code);
         return _appCredentials;
     }
 }
