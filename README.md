@@ -3,7 +3,7 @@
 
 ## 📌 Description:
 
-This repository contains hands-on lab exercises focused on understanding and implementing OAuth2 authentication protocols. Crafted with ❤️ by students of the renowned Igor Sikorsky Kyiv Polytechnic Institute in Ukraine, these labs aim to provide practical insights into modern authentication and security. Dive deep into different OAuth2 flows and empower your applications with secure token-based authentication.
+This repository contains hands-on lab exercises focused on understanding and implementing OAuth2 authentication protocols. These labs aim to provide practical insights into modern authentication and security. Dive deep into different OAuth2 flows and empower your applications with secure token-based authentication.
 
 
 ## 📂 Contents:
